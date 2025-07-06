@@ -1,50 +1,56 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Lottie from 'lottie-react';
-import scissorsAnim from '../public/scissors.json';
+
 
 export default function Home() {
+  const [scissorsAnim, setScissorsAnim] = useState(null);
   const [url, setUrl] = useState('');
   const [customSlug, setCustomSlug] = useState('');
   const [shortUrl, setShortUrl] = useState('');
 
-const handleShorten = async () => {
-  console.log('Sending URL:', url, 'Slug:', customSlug); // ✅ debug log
+  useEffect(() => {
+    fetch('/scissors.json')
+      .then(res => res.json())
+      .then(setScissorsAnim);
+  }, []);
 
-  const res = await fetch('/api/shorten', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ url, slug: customSlug }),
-  });
-
-  const data = await res.json();
-  console.log('Response:', data); // ✅ debug log
-
-  if (res.ok) {
-    setShortUrl(data.shortUrl);
-  } else {
-    alert(data.error || 'Something went wrong');
-  }
-};
+  const handleShorten = async (e?: React.MouseEvent<HTMLButtonElement>) => {
+    if (e) e.preventDefault();
+    if (!url) {
+      alert('Please enter a URL.');
+      return;
+    }
+    try {
+      console.log('Sending URL:', url, 'Slug:', customSlug); // ✅ debug log
+      const res = await fetch('/api/shorten', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url, slug: customSlug }),
+      });
+      const data = await res.json();
+      console.log('Response:', data); // ✅ debug log
+      if (res.ok) {
+        setShortUrl(data.shortUrl);
+      } else {
+        alert(data.error || 'Something went wrong');
+      }
+    } catch (err) {
+      alert('Network error.');
+      console.error(err);
+    }
+  };
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-white overflow-hidden">
       {/* 🎬 Animated Scissors (multiple) */}
       <div className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none">
-        <Lottie
-          animationData={scissorsAnim}
-          loop
-          className="w-24 md:w-36 opacity-10 absolute top-10 left-10 animate-float hover:scale-110 transition duration-300"
-        />
-        <Lottie
-          animationData={scissorsAnim}
-          loop
-          className="w-20 md:w-32 opacity-10 absolute bottom-16 left-1/2 animate-float-delayed hover:scale-110 transition duration-300"
-        />
-        <Lottie
-          animationData={scissorsAnim}
-          loop
-          className="w-16 md:w-28 opacity-10 absolute top-1/2 right-10 animate-float-slow hover:scale-110 transition duration-300"
-        />
+        {scissorsAnim && (
+          <Lottie
+            animationData={scissorsAnim}
+            loop
+            className="w-24 md:w-36 opacity-10 absolute top-10 left-10 animate-float hover:scale-110 transition duration-300"
+          />
+        )}
       </div>
 
       {/* ✨ UI Container */}
