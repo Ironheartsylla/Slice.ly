@@ -9,8 +9,15 @@ export default function Home() {
 
   useEffect(() => {
     fetch('/scissors.json')
-      .then(res => res.json())
-      .then(setScissorsAnim);
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to load scissors.json');
+        return res.json();
+      })
+      .then(setScissorsAnim)
+      .catch((err) => {
+        console.error('Error loading scissors.json:', err);
+        setScissorsAnim(null);
+      });
   }, []);
 
   const handleShorten = async (e?: React.MouseEvent<HTMLButtonElement>) => {
@@ -43,6 +50,10 @@ export default function Home() {
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-white overflow-hidden">
       {/* 🎬 Animated Scissors (multiple) */}
       <div className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none">
+        {/* Show error if animation failed to load */}
+        {!scissorsAnim && (
+          <div className="absolute top-0 left-0 w-full text-center text-red-500 text-xs">Scissors animation failed to load</div>
+        )}
         {scissorsAnim && (
           <>
             <Lottie
