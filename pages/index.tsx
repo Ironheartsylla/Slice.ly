@@ -1,24 +1,10 @@
-import { useEffect, useState } from 'react';
-import Lottie from 'lottie-react';
+import { useState } from 'react';
 
 export default function Home() {
-  const [scissorsAnim, setScissorsAnim] = useState<Record<string, unknown> | null>(null);
   const [url, setUrl] = useState('');
   const [customSlug, setCustomSlug] = useState('');
   const [shortUrl, setShortUrl] = useState('');
 
-  useEffect(() => {
-    fetch('/scissors.json')
-      .then(res => {
-        if (!res.ok) throw new Error('Failed to load scissors.json');
-        return res.json();
-      })
-      .then(setScissorsAnim)
-      .catch((err) => {
-        console.error('Error loading scissors.json:', err);
-        setScissorsAnim(null);
-      });
-  }, []);
 
   const handleShorten = async (e?: React.MouseEvent<HTMLButtonElement>) => {
     if (e) e.preventDefault();
@@ -48,34 +34,47 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-white overflow-hidden">
-      {/* 🎬 Animated Scissors (multiple) */}
-      <div className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none">
-        {/* Show error if animation failed to load */}
-        {!scissorsAnim && (
-          <div className="absolute top-0 left-0 w-full text-center text-red-500 text-xs">Scissors animation failed to load</div>
-        )}
-        {scissorsAnim && (
-          <>
-            <Lottie
-              animationData={scissorsAnim}
+      {/* 🎬 Animated Scissors (WEBM) */}
+      <div className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none overflow-hidden">
+        {/* Repeat scissors videos in a grid with random sizes/positions */}
+        {[...Array(12)].map((_, i) => {
+          // Randomize size, position, and opacity for each video
+          const sizes = [
+            'w-16 md:w-24',
+            'w-20 md:w-28',
+            'w-24 md:w-32',
+            'w-32 md:w-40',
+            'w-36 md:w-48',
+          ];
+          const tops = [
+            'top-2', 'top-10', 'top-20', 'top-1/3', 'top-1/2', 'top-3/4', 'top-0', 'top-16', 'top-24', 'top-32', 'top-40', 'top-52'
+          ];
+          const lefts = [
+            'left-2', 'left-10', 'left-1/4', 'left-1/2', 'left-3/4', 'left-0', 'left-16', 'left-24', 'left-32', 'left-40', 'left-52', 'right-2', 'right-10', 'right-16', 'right-24', 'right-32', 'right-40', 'right-52'
+          ];
+          const opacities = ['opacity-30', 'opacity-40', 'opacity-50', 'opacity-60', 'opacity-70'];
+          const anims = ['animate-float', 'animate-float-delayed', 'animate-float-slow'];
+          // Pick random values for each
+          const size = sizes[Math.floor(Math.random() * sizes.length)];
+          const top = tops[Math.floor(Math.random() * tops.length)];
+          const left = lefts[Math.floor(Math.random() * lefts.length)];
+          const opacity = opacities[Math.floor(Math.random() * opacities.length)];
+          const anim = anims[Math.floor(Math.random() * anims.length)];
+          // Pick a random scissors video (or use the same if you only have one)
+          const videoNum = (i % 3) + 1;
+          return (
+            <video
+              key={i}
+              src={`/scissors${videoNum}.webm`}
+              autoPlay
               loop
-              style={{ width: '120px', height: '120px' }}
-              className="opacity-50 absolute top-10 left-10 animate-float hover:scale-110 transition duration-300"
+              muted
+              playsInline
+              className={`${size} absolute ${top} ${left} ${opacity} ${anim}`}
+              style={{ pointerEvents: 'none' }}
             />
-            <Lottie
-              animationData={scissorsAnim}
-              loop
-              style={{ width: '100px', height: '100px' }}
-              className="opacity-50 absolute bottom-16 left-1/2 animate-float-delayed hover:scale-110 transition duration-300"
-            />
-            <Lottie
-              animationData={scissorsAnim}
-              loop
-              style={{ width: '80px', height: '80px' }}
-              className="opacity-50 absolute top-1/2 right-10 animate-float-slow hover:scale-110 transition duration-300"
-            />
-          </>
-        )}
+          );
+        })}
       </div>
 
       {/* ✨ UI Container */}
