@@ -22,8 +22,13 @@ export default async function handler(
     }
 
     const newLink = await prisma.link.create({
-      data: { url, slug },
-    });
+  data: { url, slug },
+});
+
+res.status(200).json({
+  shortUrl: `${process.env.BASE_URL}/${slug}`,
+  link: newLink, // <-- returns full data
+});
 
     res.status(200).json({ shortUrl: `${process.env.BASE_URL}/${slug}` });
   } else {
