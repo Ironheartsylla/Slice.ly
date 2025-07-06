@@ -60,7 +60,7 @@ export default function Home() {
           return (
             <img
               key={i}
-              src="/scissors.svg"
+              src="/public/scissors.svg"
               alt="Scissors"
               className={`${size} absolute ${top} ${left} ${opacity} ${anim}`}
               style={{ pointerEvents: 'none', transform: rotate }}
