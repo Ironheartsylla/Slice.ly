@@ -34,7 +34,7 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-white overflow-hidden">
-      {/* 🎬 Animated Scissors (SVG, custom) */}
+      {/* 🎬 Animated Scissors (SVG file) */}
       <div className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none overflow-hidden">
         {[...Array(12)].map((_, i) => {
           // Randomize size, position, and opacity for each SVG
@@ -58,20 +58,13 @@ export default function Home() {
           // Random rotation
           const rotate = `rotate(${Math.floor(Math.random() * 360)}deg)`;
           return (
-            <svg
+            <img
               key={i}
-              viewBox="0 0 64 64"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+              src="/scissors.svg"
+              alt="Scissors"
               className={`${size} absolute ${top} ${left} ${opacity} ${anim}`}
               style={{ pointerEvents: 'none', transform: rotate }}
-            >
-              <circle cx="20" cy="20" r="10" stroke="#e11d48" strokeWidth="4" fill="#fff" />
-              <circle cx="44" cy="44" r="10" stroke="#f59e42" strokeWidth="4" fill="#fff" />
-              <rect x="18" y="18" width="28" height="8" rx="4" fill="#e11d48" transform="rotate(45 32 22)" />
-              <rect x="18" y="38" width="28" height="8" rx="4" fill="#f59e42" transform="rotate(-45 32 42)" />
-              <circle cx="32" cy="32" r="3" fill="#f59e42" />
-            </svg>
+            />
           );
         })}
       </div>
@@ -103,7 +96,7 @@ export default function Home() {
 
         {shortUrl && (
           <div className="mt-6 text-blue-800 font-medium">
-            <p>Your short URL:</p>
+            <p>Your sliced URL:</p>
             <a href={shortUrl} className="underline" target="_blank" rel="noopener noreferrer">
               {shortUrl}
             </a>
