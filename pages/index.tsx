@@ -59,17 +59,20 @@ export default function Home() {
             <Lottie
               animationData={scissorsAnim}
               loop
-              className="w-24 md:w-36 opacity-10 absolute top-10 left-10 animate-float hover:scale-110 transition duration-300"
+              style={{ width: '120px', height: '120px' }}
+              className="opacity-50 absolute top-10 left-10 animate-float hover:scale-110 transition duration-300"
             />
             <Lottie
               animationData={scissorsAnim}
               loop
-              className="w-20 md:w-32 opacity-10 absolute bottom-16 left-1/2 animate-float-delayed hover:scale-110 transition duration-300"
+              style={{ width: '100px', height: '100px' }}
+              className="opacity-50 absolute bottom-16 left-1/2 animate-float-delayed hover:scale-110 transition duration-300"
             />
             <Lottie
               animationData={scissorsAnim}
               loop
-              className="w-16 md:w-28 opacity-10 absolute top-1/2 right-10 animate-float-slow hover:scale-110 transition duration-300"
+              style={{ width: '80px', height: '80px' }}
+              className="opacity-50 absolute top-1/2 right-10 animate-float-slow hover:scale-110 transition duration-300"
             />
           </>
         )}
