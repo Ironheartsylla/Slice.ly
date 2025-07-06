@@ -34,17 +34,12 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-white overflow-hidden">
-      {/* 🎬 Animated Scissors (WEBM) */}
+      {/* 🎬 Animated Scissors (SVG, custom) */}
       <div className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none overflow-hidden">
-        {/* Repeat scissors videos in a grid with random sizes/positions */}
         {[...Array(12)].map((_, i) => {
-          // Randomize size, position, and opacity for each video
+          // Randomize size, position, and opacity for each SVG
           const sizes = [
-            'w-16 md:w-24',
-            'w-20 md:w-28',
-            'w-24 md:w-32',
-            'w-32 md:w-40',
-            'w-36 md:w-48',
+            'w-10 h-10', 'w-12 h-12', 'w-16 h-16', 'w-20 h-20', 'w-24 h-24', 'w-28 h-28', 'w-32 h-32',
           ];
           const tops = [
             'top-2', 'top-10', 'top-20', 'top-1/3', 'top-1/2', 'top-3/4', 'top-0', 'top-16', 'top-24', 'top-32', 'top-40', 'top-52'
@@ -60,19 +55,23 @@ export default function Home() {
           const left = lefts[Math.floor(Math.random() * lefts.length)];
           const opacity = opacities[Math.floor(Math.random() * opacities.length)];
           const anim = anims[Math.floor(Math.random() * anims.length)];
-          // Pick a random scissors video (or use the same if you only have one)
-          const videoNum = (i % 3) + 1;
+          // Random rotation
+          const rotate = `rotate(${Math.floor(Math.random() * 360)}deg)`;
           return (
-            <video
+            <svg
               key={i}
-              src={`/scissors${videoNum}.webm`}
-              autoPlay
-              loop
-              muted
-              playsInline
+              viewBox="0 0 64 64"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
               className={`${size} absolute ${top} ${left} ${opacity} ${anim}`}
-              style={{ pointerEvents: 'none' }}
-            />
+              style={{ pointerEvents: 'none', transform: rotate }}
+            >
+              <circle cx="20" cy="20" r="10" stroke="#e11d48" strokeWidth="4" fill="#fff" />
+              <circle cx="44" cy="44" r="10" stroke="#f59e42" strokeWidth="4" fill="#fff" />
+              <rect x="18" y="18" width="28" height="8" rx="4" fill="#e11d48" transform="rotate(45 32 22)" />
+              <rect x="18" y="38" width="28" height="8" rx="4" fill="#f59e42" transform="rotate(-45 32 42)" />
+              <circle cx="32" cy="32" r="3" fill="#f59e42" />
+            </svg>
           );
         })}
       </div>
