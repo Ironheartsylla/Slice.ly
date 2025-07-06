@@ -4,7 +4,7 @@ export default function Home() {
   const [url, setUrl] = useState('');
   const [customSlug, setCustomSlug] = useState('');
   const [shortUrl, setShortUrl] = useState('');
-
+  const [sliceEffect, setSliceEffect] = useState(false); // 🚀 for flying scissor
 
   const handleShorten = async (e?: React.MouseEvent<HTMLButtonElement>) => {
     if (e) e.preventDefault();
@@ -13,16 +13,17 @@ export default function Home() {
       return;
     }
     try {
-      console.log('Sending URL:', url, 'Slug:', customSlug); // ✅ debug log
       const res = await fetch('/api/shorten', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url, slug: customSlug }),
       });
       const data = await res.json();
-      console.log('Response:', data); // ✅ debug log
       if (res.ok) {
         setShortUrl(data.shortUrl);
+        // ✂️ Trigger slice effect
+        setSliceEffect(true);
+        setTimeout(() => setSliceEffect(false), 1000);
       } else {
         alert(data.error || 'Something went wrong');
       }
@@ -34,44 +35,56 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-white overflow-hidden">
-      {/* 🎬 Animated Scissors (SVG file) */}
+      {/* ✂️ Random Floating Scissors */}
       <div className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none overflow-hidden">
         {[...Array(12)].map((_, i) => {
-          // Randomize size, position, and opacity for each SVG
-          const sizes = [
-            'w-10 h-10', 'w-12 h-12', 'w-16 h-16', 'w-20 h-20', 'w-24 h-24', 'w-28 h-28', 'w-32 h-32',
-          ];
-          const tops = [
-            'top-2', 'top-10', 'top-20', 'top-1/3', 'top-1/2', 'top-3/4', 'top-0', 'top-16', 'top-24', 'top-32', 'top-40', 'top-52'
-          ];
-          const lefts = [
-            'left-2', 'left-10', 'left-1/4', 'left-1/2', 'left-3/4', 'left-0', 'left-16', 'left-24', 'left-32', 'left-40', 'left-52', 'right-2', 'right-10', 'right-16', 'right-24', 'right-32', 'right-40', 'right-52'
-          ];
-          const opacities = ['opacity-30', 'opacity-40', 'opacity-50', 'opacity-60', 'opacity-70'];
-          const anims = ['animate-float', 'animate-float-delayed', 'animate-float-slow'];
-          // Pick random values for each
+          const sizes = ['w-10 h-10', 'w-12 h-12', 'w-16 h-16'];
+          const tops = ['top-2', 'top-10', 'top-20', 'top-1/3', 'top-1/2', 'top-3/4'];
+          const sides = ['left-2', 'left-10', 'left-1/4', 'left-1/2', 'right-2', 'right-10', 'right-1/4'];
+          const opacities = ['opacity-30', 'opacity-40', 'opacity-50'];
+          const anims = ['animate-float', 'animate-float-left', 'animate-float-right', 'animate-float-diagonal'];
+
           const size = sizes[Math.floor(Math.random() * sizes.length)];
           const top = tops[Math.floor(Math.random() * tops.length)];
-          const left = lefts[Math.floor(Math.random() * lefts.length)];
+          const side = sides[Math.floor(Math.random() * sides.length)];
           const opacity = opacities[Math.floor(Math.random() * opacities.length)];
           const anim = anims[Math.floor(Math.random() * anims.length)];
-          // Random rotation
           const rotate = `rotate(${Math.floor(Math.random() * 360)}deg)`;
+
           return (
             <img
               key={i}
-              src="/public/scissors.svg"
+              src="/scissors.svg"
               alt="Scissors"
-              className={`${size} absolute ${top} ${left} ${opacity} ${anim}`}
-              style={{ pointerEvents: 'none', transform: rotate }}
+              className={`${size} absolute ${top} ${side} ${opacity} ${anim}`}
+              style={{
+                pointerEvents: 'none',
+                transform: rotate,
+              }}
             />
           );
         })}
       </div>
 
-      {/* ✨ UI Container */}
+      {/* ✂️ Flying Scissors Animation on Click */}
+      {sliceEffect &&
+        [...Array(3)].map((_, i) => (
+          <img
+            key={i}
+            src="public/scissors.svg"
+            alt="Slicing"
+            className="absolute w-12 left-1/2 top-1/2 animate-slice-zoom-fly z-50"
+            style={{
+              transform: `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`,
+            }}
+          />
+        ))}
+
+      {/* 🔳 UI Box */}
       <div className="bg-white/70 backdrop-blur-md p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
-        <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-red-500 via-pink-500 to-yellow-500 bg-clip-text text-transparent">Slice.ly ✂️</h1>
+        <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-red-500 via-pink-500 to-yellow-500 bg-clip-text text-transparent">
+          Slice.ly ✂️
+        </h1>
 
         <input
           placeholder="Paste a long URL..."

@@ -69,3 +69,41 @@ body {
 .animate-float-delayed {
   animation: float-delayed 7s ease-in-out infinite;
 }
+
+@keyframes float-left {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-20px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes float-right {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(20px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes float-diagonal {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(20px, 20px); }
+  100% { transform: translate(0, 0); }
+}
+
+.animate-float-left {
+  animation: float-left 5s ease-in-out infinite;
+}
+.animate-float-right {
+  animation: float-right 5s ease-in-out infinite;
+}
+.animate-float-diagonal {
+  animation: float-diagonal 6s ease-in-out infinite;
+}
+
+@keyframes slice-zoom-fly {
+  0% { transform: scale(0) translateY(0); opacity: 1; }
+  50% { transform: scale(1.5) translateY(-40px); opacity: 1; }
+  100% { transform: scale(2.5) translateY(-100px); opacity: 0; }
+}
+
+.animate-slice-zoom-fly {
+  animation: slice-zoom-fly 1s ease forwards;
+}
