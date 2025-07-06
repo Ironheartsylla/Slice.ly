@@ -55,25 +55,25 @@ export default function Home() {
 
       {/* ✨ UI Container */}
       <div className="bg-white/70 backdrop-blur-md p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
-        <h1 className="text-4xl font-bold mb-6 text-blue-700">Slice.ly ✂️</h1>
+        <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-red-500 via-pink-500 to-yellow-500 bg-clip-text text-transparent">Slice.ly ✂️</h1>
 
         <input
           placeholder="Paste a long URL..."
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          className="w-full p-3 rounded-xl border border-gray-300 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full p-3 rounded-xl border border-gray-300 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400 text-black placeholder-gray-500"
         />
 
         <input
           placeholder="Custom slug (optional)"
           value={customSlug}
           onChange={(e) => setCustomSlug(e.target.value)}
-          className="w-full p-3 rounded-xl border border-gray-300 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full p-3 rounded-xl border border-gray-300 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400 text-black placeholder-gray-500"
         />
 
         <button
           onClick={handleShorten}
-          className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition"
+          className="w-full bg-gradient-to-r from-red-500 via-pink-500 to-yellow-500 text-white py-3 rounded-xl font-semibold hover:from-red-600 hover:to-yellow-600 transition"
         >
           Slice it!
         </button>
