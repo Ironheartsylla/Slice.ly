@@ -8,7 +8,7 @@ export default function Home() {
   const [shortUrl, setShortUrl] = useState('');
 
   useEffect(() => {
-    fetch('/scissors.lottie')
+    fetch('/scissors.json')
       .then(res => res.json())
       .then(setScissorsAnim);
   }, []);
