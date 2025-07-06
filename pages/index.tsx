@@ -51,6 +51,8 @@ export default function Home() {
           const anim = anims[Math.floor(Math.random() * anims.length)];
           const rotate = `rotate(${Math.floor(Math.random() * 360)}deg)`;
 
+          // DEBUG: Show a border and background to see if the image is rendering
+          // Remove debug border and bg for production
           return (
             <img
               key={i}
@@ -60,7 +62,9 @@ export default function Home() {
               style={{
                 pointerEvents: 'none',
                 transform: rotate,
+                zIndex: 1,
               }}
+              onError={() => console.error('Failed to load /scissors.svg')}
             />
           );
         })}
