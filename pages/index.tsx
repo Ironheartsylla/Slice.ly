@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Lottie from 'lottie-react';
 
 export default function Home() {
-  const [scissorsAnim, setScissorsAnim] = useState<any>(null);
+  const [scissorsAnim, setScissorsAnim] = useState<Record<string, unknown> | null>(null);
   const [url, setUrl] = useState('');
   const [customSlug, setCustomSlug] = useState('');
   const [shortUrl, setShortUrl] = useState('');
