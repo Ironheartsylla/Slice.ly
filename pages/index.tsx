@@ -7,17 +7,24 @@ export default function Home() {
   const [customSlug, setCustomSlug] = useState('');
   const [shortUrl, setShortUrl] = useState('');
 
-  const handleShorten = async () => {
-    const res = await fetch('/api/shorten', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url, slug: customSlug }),
-    });
+const handleShorten = async () => {
+  console.log('Sending URL:', url, 'Slug:', customSlug); // ✅ debug log
 
-    const data = await res.json();
-    if (res.ok) setShortUrl(data.shortUrl);
-    else alert(data.error);
-  };
+  const res = await fetch('/api/shorten', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url, slug: customSlug }),
+  });
+
+  const data = await res.json();
+  console.log('Response:', data); // ✅ debug log
+
+  if (res.ok) {
+    setShortUrl(data.shortUrl);
+  } else {
+    alert(data.error || 'Something went wrong');
+  }
+};
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-white overflow-hidden">
