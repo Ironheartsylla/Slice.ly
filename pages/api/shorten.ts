@@ -27,10 +27,7 @@ export default async function handler(
     });
 
     // Use BASE_URL from env, or fallback to request host
-    const baseUrl =
-      process.env.BASE_URL ||
-      (req.headers['origin'] || `https://${req.headers['host']}`);
-
+    const baseUrl = (process.env.BASE_URL || (req.headers['origin'] || `https://${req.headers['host']}`)).replace(/\/$/, '');
     return res.status(200).json({
       shortUrl: `${baseUrl}/${slug}`,
       link: newLink,
