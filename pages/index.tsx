@@ -71,7 +71,7 @@ export default function Home() {
         [...Array(3)].map((_, i) => (
           <img
             key={i}
-            src="public/scissors.svg"
+            src="/scissors.svg"
             alt="Slicing"
             className="absolute w-12 left-1/2 top-1/2 animate-slice-zoom-fly z-50"
             style={{
